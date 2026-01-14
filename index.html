@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>For You</title>
+<!-- Google Font for Thank You -->
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<style>
+*{
+  box-sizing:border-box;
+  font-family: 'Georgia', serif;
+}
+
+body{
+  margin:0;
+  background:#f7b7c7;
+  min-height:100vh;
+  overflow-y:auto;
+}
+
+.page{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  min-height:100vh;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 0.8s ease;
+  padding:20px;
+}
+
+.page.active{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.card{
+  background:white;
+  width:90%;
+  max-width:600px;
+  padding:30px;
+  border-radius:25px;
+  text-align:center;
+  margin:auto;
+  line-height:1.6;
+  box-shadow:0 8px 20px rgba(245,130,160,0.3);
+  max-height:80vh;
+  overflow-y:auto;
+}
+
+input{
+  width:100%;
+  padding:12px;
+  margin-top:15px;
+  border-radius:10px;
+  border:1px solid #ccc;
+  font-size:16px;
+}
+
+button{
+  margin-top:20px;
+  padding:14px 25px;
+  border:none;
+  border-radius:15px;
+  background:#f48fb1;
+  color:black;
+  font-size:18px;
+  cursor:pointer;
+}
+
+.fadeText span{
+  display:block;
+  opacity:0;
+  animation:fadeIn 1s forwards;
+  font-size:18px;
+}
+
+@keyframes fadeIn{
+  to{opacity:1;}
+}
+
+/* CRINGE ALERT / Thank You clickable box */
+.clickableBox{
+  background:#f48fb1;
+  color:white;
+  padding:30px;
+  border-radius:20px;
+  font-size:28px;
+  cursor:pointer;
+  animation:pulse 3s infinite;
+  user-select:none;
+}
+
+@keyframes pulse{
+  0%,100%{opacity:1;}
+  50%{opacity:0.85;}
+}
+
+/* Apply Pacifico only to Thank You box */
+#page7 .clickableBox {
+  font-family: 'Pacifico', cursive;
+  font-size:32px;
+}
+
+img{
+  width:100%;
+  border-radius:15px;
+  margin-bottom:20px;
+}
+</style>
+</head>
+<body>
+
+<audio id="bgMusic" src="music.mp3" loop></audio>
+
+<!-- PAGE 1 -->
+<div class="page active" id="page1">
+  <div class="card">
+    <h2>Enter your name</h2>
+    <input id="nameInput" placeholder="Type here..." />
+    <button onclick="start()">Start</button>
+  </div>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page" id="page2">
+  <div class="card">
+    <div class="fadeText">
+      <span style="animation-delay:0s">will you accept me?</span>
+    </div>
+    <button onclick="next('page3')">Yes</button>
+    <button id="noButton">No</button>
+  </div>
+</div>
+
+<!-- PAGE 3 - CRINGE ALERT -->
+<div class="page" id="page3">
+  <div class="card">
+    <div class="clickableBox" onclick="next('page4')">
+      CRINGE ALERT (TAP IF YOU'RE READY)
+    </div>
+  </div>
+</div>
+
+<!-- MESSAGE PAGE 1 -->
+<div class="page" id="page4">
+  <div class="card">
+    <img src="https://i.postimg.cc/wBvz4WTQ/IMG-9850.jpg" alt="Message 1">
+    <div class="fadeText" id="message1"></div>
+    <button onclick="next('page5')">Next</button>
+  </div>
+</div>
+
+<!-- MESSAGE PAGE 2 -->
+<div class="page" id="page5">
+  <div class="card">
+    <img src="https://i.postimg.cc/wBGmqXgc/IMG-9951.jpg" alt="Message 2">
+    <div class="fadeText" id="message2"></div>
+    <button onclick="next('page6')">Next</button>
+  </div>
+</div>
+
+<!-- FINAL PAGE -->
+<div class="page" id="page6">
+  <div class="card">
+    <img src="https://i.postimg.cc/260z8PcK/IMG-0028.jpg" alt="Final">
+    <h2>
+      If my memories was erased and life gave me another choice again,  
+      I am 100% convinced I'd fall in love with you again.
+    </h2>
+    <button onclick="next('page7')">Next</button>
+  </div>
+</div>
+
+<!-- THANK YOU PAGE -->
+<div class="page" id="page7">
+  <div class="card">
+    <div class="clickableBox" onclick="next('page1')">
+      Thank You
+    </div>
+  </div>
+</div>
+
+<script>
+const pages=document.querySelectorAll('.page');
+
+function show(id){
+  pages.forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function start(){
+  const music=document.getElementById('bgMusic');
+  music.volume=0.5;
+  music.play().catch(()=>{});
+  next('page2');
+}
+
+function next(id){
+  const current=document.querySelector('.page.active');
+  current.classList.remove('active');
+  setTimeout(()=>show(id),600);
+}
+
+// Messages
+const msgText1=`Tengah buat apaa tuu hehehe💗
+I dont say this as much but thank youuu iman irene HAHAAHA, you mean so much for me. Being with you, even in this short time has made my days brighter and more fun. And even before I confessed, when we were just friends, your presence is such a joyful rides in my life. This memory will stayed with me.
+
+I love how you do this little things so effortlessly, how you ask my day, how you listen to my stories and how you shared yours, how you try to understand me. It may seem small, but at least for me, it means so damn muchh. Your thoughtfulness and you, yourself is so special.`;
+
+const msgText2=`Remember when we talked for hours? Sometimes it can be about most random and silly things. Also sometimes when we do deep conversations, telling each other about ourselves, that is something i held close to my heart. You make me feel seen and realise things that i didn't even know I'd share with you.
+
+From our first moment together until today, every fun and complicated memories, i will cherish it.`;
+
+const container1=document.getElementById('message1');
+msgText1.split('\n').forEach((line,i)=>{
+  const span=document.createElement('span');
+  span.textContent=line;
+  span.style.animationDelay=`${i*0.5}s`;
+  container1.appendChild(span);
+});
+
+const container2=document.getElementById('message2');
+msgText2.split('\n').forEach((line,i)=>{
+  const span=document.createElement('span');
+  span.textContent=line;
+  span.style.animationDelay=`${i*0.5}s`;
+  container2.appendChild(span);
+});
+
+// "No" button playful behavior
+const noBtn=document.getElementById('noButton');
+noBtn.addEventListener('click',()=>{
+  noBtn.style.transition='opacity 0.6s';
+  noBtn.style.opacity=0;
+  setTimeout(()=>{
+    noBtn.textContent='Yess jugak HAHAHAH';
+    noBtn.style.opacity=1;
+  },600);
+});
+</script>
+
+</body>
+</html>
